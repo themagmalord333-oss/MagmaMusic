@@ -1,7 +1,7 @@
 from pyrogram import types
-from pykeyboard import InlineKeyboard, InlineButton
 
 from Elevenyts import app, config, lang
+
 
 
 class Inline:
@@ -19,28 +19,44 @@ class Inline:
         timer: str = None,
         remove: bool = False,
     ) -> types.InlineKeyboardMarkup:
-        keyboard = InlineKeyboard(row_width=5)
-        
+        keyboard = []
         if status:
-            keyboard.row(InlineButton(text=status, callback_data=f"controls status {chat_id}"))
+            keyboard.append(
+                [self.ikb(
+                    text=status, callback_data=f"controls status {chat_id}")]
+            )
         elif timer:
-            keyboard.row(InlineButton(text=timer, callback_data=f"controls status {chat_id}"))
+            keyboard.append(
+                [self.ikb(
+                    text=timer, callback_data=f"controls status {chat_id}")]
+            )
 
         if not remove:
-            # Control buttons - BLUE color
-            keyboard.row(
-                InlineButton(text="▷", callback_data=f"controls resume {chat_id}", color="primary"),
-                InlineButton(text="II", callback_data=f"controls pause {chat_id}", color="primary"),
-                InlineButton(text="↻", callback_data=f"controls replay {chat_id}", color="primary"),
-                InlineButton(text="‣‣I", callback_data=f"controls skip {chat_id}", color="primary"),
-                InlineButton(text="▢", callback_data=f"controls stop {chat_id}", color="danger"),
+            # Seek buttons row
+            
+            # Main control buttons row
+            keyboard.append(
+                [
+                    self.ikb(
+                        text="▷", callback_data=f"controls resume {chat_id}"),
+                    self.ikb(
+                        text="II", callback_data=f"controls pause {chat_id}"),
+                    self.ikb(
+                        text="↻", callback_data=f"controls replay {chat_id}"),
+                    self.ikb(
+                        text="‣‣I", callback_data=f"controls skip {chat_id}"),
+                    self.ikb(
+                        text="▢", callback_data=f"controls stop {chat_id}"),
+                ]
             )
-            # Delete button - RED color
-            keyboard.row(
-                InlineButton(text="ᴅᴇʟᴇᴛᴇ", callback_data=f"controls close {chat_id}", color="danger"),
+            # Delete button as full-width button at bottom
+            keyboard.append(
+                [
+                    self.ikb(
+                        text="ᴅᴇʟᴇᴛᴇ", callback_data=f"controls close {chat_id}"),
+                ]
             )
-        
-        return keyboard
+        return self.ikm(keyboard)
 
     def help_markup(
         self, _lang: dict, back: bool = False
@@ -53,6 +69,7 @@ class Inline:
                 ]
             ]
         else:
+            # Help menu with categorized buttons (3 per row)
             rows = [
                 [
                     self.ikb(text="ᴀᴅᴍɪɴꜱ", callback_data="help_admins"),
@@ -84,6 +101,7 @@ class Inline:
                 ]
             ]
         return self.ikm(rows)
+
 
     def ping_markup(self, text: str) -> types.InlineKeyboardMarkup:
         return self.ikm([
