@@ -1,14 +1,13 @@
 # ==========================================================
-# Copyright (c) 2026 ArtistBots
+# Copyright (c) 2026 MAGMA
 # All Rights Reserved.
 #
-# Project      : ArtistBots API Telegram Music Bot
-# Powered By   : Artist
+# Project      : MAGMA API Telegram Music Bot
+# Powered By   : MAGMA
 # Type         : API Based Telegram Music Bot
 #
-# Bot          : @ArtistApibot
-# Channel      : https://t.me/artistbots
-# GitHub       : https://github.com/elevenyts
+# Channel      : @MAGMAxRICH
+# GitHub       : https://github.com/themagmalord333-oss
 #
 # Unauthorized copying, modification, or redistribution
 # of this source code without permission is prohibited.
@@ -29,7 +28,7 @@ async def _ping(_, m: types.Message):
         await m.delete()
     except Exception:
         pass
-    
+
     start = time.time()
     sent = await m.reply_text(m.lang["pinging"])
 
@@ -37,16 +36,16 @@ async def _ping(_, m: types.Message):
         [f"{v}{u}" for v, u in zip([s % 60, (s//60) % 60, (s//3600) % 24, s//86400], ["s", "m", "h", "days"])])
     uptime = get_time(int(time.time() - boot))
     latency = round((time.time() - start) * 1000, 2)
-    
+
     # Get system stats
     mem = psutil.virtual_memory()
     ram_usage = f"{round(mem.used / (1024 ** 3), 1)}GB / {round(mem.total / (1024 ** 3), 1)}GB"
     cpu_percent = psutil.cpu_percent(interval=0.5)
-    
+
     # Get active chats count
     from Elevenyts import db
     active_chats = len(await db.get_chats())
-    
+
     caption_text = m.lang["ping_pong"].format(
         latency,
         uptime,
@@ -55,7 +54,7 @@ async def _ping(_, m: types.Message):
         cpu_percent,
         active_chats,
     )
-    
+
     # Try to send with media, fallback to text if it fails
     try:
         await sent.edit_media(
