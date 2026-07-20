@@ -7,6 +7,7 @@
 # Type         : API Based Telegram Music Bot
 # ==========================================================
 
+import os
 import re
 import urllib.parse
 import aiohttp
@@ -24,8 +25,8 @@ class YouTube:
         """Initialize Anysnap YouTube handler (100% API Based)."""
         self.base = "https://www.youtube.com/watch?v="
         
-        # Load API URL from config (.env)
-        self.api_url = config.ANYSNAP_API_URL.rstrip('/') if hasattr(config, "ANYSNAP_API_URL") and config.ANYSNAP_API_URL else "http://127.0.0.1:8000"
+        # Hardcoded URL set to your live AWS server to prevent localhost clashes
+        self.api_url = os.getenv("ANYSNAP_API_URL", "http://18.209.168.200:8000").rstrip('/')
         
         self.regex = re.compile(
             r"(https?://)?(www\.|m\.|music\.)?"
@@ -71,7 +72,7 @@ class YouTube:
         return None
 
     async def search(self, query: str, m_id: int) -> Track | None:
-        """Search for a song on YouTube using Anysnap API or Py_yt fallback."""
+        """Search for a song on YouTube using Py_yt fallback."""
         cache_key = query
         current_time = asyncio.get_running_loop().time()
 
@@ -87,7 +88,6 @@ class YouTube:
                 return fresh
 
         try:
-            # We use py_yt as it directly returns detailed dict format needed for `Track`
             _search = VideosSearch(query, limit=1)
             results = await _search.next()
             
@@ -171,7 +171,8 @@ class YouTube:
                         logger.error(f"❌ API returned status {response.status}")
                         return None
                         
-                    track_data = await response.json()
+                    # Fix: content_type=None bypasses strict mimetype checking
+                    track_data = await response.json(content_type=None)
                     
                     if track_data.get("status") is True:
                         # Extract exact filename URL from JSON response
