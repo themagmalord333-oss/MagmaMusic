@@ -1,14 +1,13 @@
 # ==========================================================
-# Copyright (c) 2026 ArtistBots
+# Copyright (c) 2026 MAGMA
 # All Rights Reserved.
 #
-# Project      : ArtistBots API Telegram Music Bot
-# Powered By   : Artist
+# Project      : MAGMA API Telegram Music Bot
+# Powered By   : MAGMA
 # Type         : API Based Telegram Music Bot
 #
-# Bot          : @ArtistApibot
-# Channel      : https://t.me/artistbots
-# GitHub       : https://github.com/elevenyts
+# Channel      : @MAGMAxRICH
+# GitHub       : https://github.com/themagmalord333-oss
 #
 # Unauthorized copying, modification, or redistribution
 # of this source code without permission is prohibited.
@@ -29,7 +28,7 @@ async def _help(_, m: types.Message):
         await m.delete()
     except Exception:
         pass
-    
+
     try:
         await m.reply_photo(
             photo=config.START_IMG,  # Use same image as start command
@@ -63,7 +62,7 @@ async def start(_, message: types.Message):
             await message.delete()
         except Exception:
             pass
-    
+
     # Skip if message from channel or anonymous admin
     if not message.from_user:
         return
@@ -79,11 +78,11 @@ async def start(_, message: types.Message):
     # Determine if chat is private or group
     private = message.chat.type == enums.ChatType.PRIVATE
 
-    # Choose appropriate welcome message
+    # Choose appropriate welcome message (Text loads from updated en.json)
     _text = (
-        message.lang["start_pm"].format(message.from_user.first_name, app.name)
+        message.lang["start_pm"].format(message.from_user.first_name, config.BOT_NAME)
         if private
-        else message.lang["start_gp"].format(app.name)
+        else message.lang["start_gp"].format(config.BOT_NAME)
     )
 
     key = buttons.start_key(message.lang, private)
@@ -128,7 +127,7 @@ async def settings(_, message: types.Message):
         await message.delete()
     except Exception:
         pass
-    
+
     admin_only = await db.get_play_mode(message.chat.id)  # Get play mode setting
     _language = "en"
     await utils.safe_text(
