@@ -1,14 +1,13 @@
 # ==========================================================
-# Copyright (c) 2026 ArtistBots
+# Copyright (c) 2026 Anysnap
 # All Rights Reserved.
 #
-# Project      : ArtistBots API Telegram Music Bot
-# Powered By   : Artist
+# Project      : Anysnap API Telegram Music Bot
+# Powered By   : Anysnap
 # Type         : API Based Telegram Music Bot
 #
-# Bot          : @ArtistApibot
-# Channel      : https://t.me/artistbots
-# GitHub       : https://github.com/elevenyts
+# Channel      : @MAGMAxRICH
+# GitHub       : https://github.com/themagmalord333-oss
 #
 # Unauthorized copying, modification, or redistribution
 # of this source code without permission is prohibited.
@@ -42,9 +41,11 @@ class Config:
         self.SESSION2: str = getenv("STRING_SESSION2", "")
         self.SESSION3: str = getenv("STRING_SESSION3", "")
 
-        # Support Links
-        self.SUPPORT_CHANNEL: str = getenv("SUPPORT_CHANNEL", "https://t.me/elevenytsmusic")
-        self.SUPPORT_CHAT: str = getenv("SUPPORT_CHAT", "https://t.me/elevenytschats")
+        # Branding & Support Links (Dynamically loaded from .env)
+        self.BOT_NAME: str = getenv("BOT_NAME", "Anysnap")
+        self.SUPPORT_CHANNEL: str = getenv("SUPPORT_CHANNEL", "https://t.me/MAGMAxRICH")
+        self.SUPPORT_CHAT: str = getenv("SUPPORT_CHAT", "https://t.me/MAGMAxRICH")
+        self.GITHUB_REPO: str = getenv("GITHUB_REPO", "https://github.com/themagmalord333-oss")
 
         # Excluded Chats
         self.EXCLUDED_CHATS: List[int] = self._parse_excluded_chats()
@@ -56,9 +57,8 @@ class Config:
         self.VIDEO_PLAY: bool = self._str_to_bool(getenv("VIDEO_PLAY", "True"))
         self.VIDEO_MAX_HEIGHT: int = self._parse_video_height()
 
-        # ArtistBots API
-        self.ARTISTBOTS_API_URL: str = getenv("ARTISTBOTS_API_URL", "")
-        self.ARTISTBOTS_KEY: str = getenv("ARTISTBOTS_KEY", "")
+        # Anysnap API Configuration
+        self.ANYSNAP_API_URL: str = getenv("ANYSNAP_API_URL", "http://127.0.0.1:8001")
         self.ENABLE_API: bool = self._str_to_bool(getenv("ENABLE_API", "True"))
         self.ENABLE_COOKIES_FALLBACK: bool = self._str_to_bool(getenv("ENABLE_COOKIES_FALLBACK", "True"))
         self.API_TIMEOUT: int = int(getenv("API_TIMEOUT", "60"))
@@ -122,9 +122,6 @@ class Config:
         missing = [name for name, value in required_vars.items() if not value or (isinstance(value, int) and value == 0)]
         if missing:
             raise SystemExit(f"Missing required env vars: {', '.join(missing)}")
-        
-        if self.ENABLE_API and not self.ARTISTBOTS_KEY:
-            print("Warning: ENABLE_API is True but ARTISTBOTS_KEY is not set")
 
 
 config = Config()
