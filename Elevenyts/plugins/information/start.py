@@ -1,12 +1,12 @@
 # ==========================================================
-# Copyright (c) 2026 MAGMA
+# Copyright (c) 2026 Anysnap
 # All Rights Reserved.
 #
-# Project      : MAGMA API Telegram Music Bot
-# Powered By   : MAGMA
+# Project      : Anysnap API Telegram Music Bot
+# Powered By   : Anysnap
 # Type         : API Based Telegram Music Bot
 #
-# Channel      : @MAGMAxRICH
+# Channel      : @ANYSNAP
 # GitHub       : https://github.com/themagmalord333-oss
 #
 # Unauthorized copying, modification, or redistribution
@@ -15,8 +15,8 @@
 
 from pyrogram import enums, errors, filters, types
 
-from Elevenyts import app, config, db, lang
-from Elevenyts.helpers import buttons, utils
+from Anysnap import app, config, db, lang
+from Anysnap.helpers import buttons, utils
 
 
 @app.on_message(filters.command(["help"]) & filters.private & ~app.bl_users)
