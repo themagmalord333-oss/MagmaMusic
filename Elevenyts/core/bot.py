@@ -1,12 +1,12 @@
 # ==========================================================
-# Copyright (c) 2026 MAGMA
+# Copyright (c) 2026 Anysnap
 # All Rights Reserved.
 #
-# Project      : MAGMA API Telegram Music Bot
-# Powered By   : MAGMA
+# Project      : Anysnap API Telegram Music Bot
+# Powered By   : Anysnap
 # Type         : API Based Telegram Music Bot
 #
-# Channel      : @MAGMAxRICH
+# Channel      : @ANYSNAP
 # GitHub       : https://github.com/themagmalord333-oss
 #
 # Unauthorized copying, modification, or redistribution
@@ -15,7 +15,7 @@
 import pyrogram
 from typing import Optional
 
-from Elevenyts import config, logger
+from Anysnap import config, logger
 
 
 class Bot(pyrogram.Client):
