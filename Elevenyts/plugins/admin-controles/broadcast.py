@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 from pyrogram import enums, errors, filters, types
 
-from Elevenyts import app, db, lang
+from Anysnap import app, db, lang
 
 
 # Global flag to track if a broadcast is currently running
@@ -34,7 +34,7 @@ async def broadcast_message(_, message: types.Message) -> None:
         await message.delete()
     except Exception:
         pass
-    
+
     global broadcasting
 
     # Check if another broadcast is already running
@@ -46,7 +46,7 @@ async def broadcast_message(_, message: types.Message) -> None:
     media_group = None
     if message.reply_to_message:
         media_message = message.reply_to_message
-        
+
         # Check if it's part of a media group (album)
         if media_message.media_group_id:
             try:
@@ -111,7 +111,7 @@ async def stop_broadcast(_, message: types.Message) -> None:
         await message.delete()
     except Exception:
         pass
-    
+
     global broadcasting
 
     if not broadcasting:
@@ -147,16 +147,16 @@ async def _get_media_group(chat_id: int, message: types.Message) -> List[types.M
 
     media_group_id = message.media_group_id
     messages = []
-    
+
     # Search backward and forward from the current message to find all messages with same media_group_id
     # Telegram typically sends media group messages with consecutive IDs
     search_range = 20  # Search 20 messages before and after
-    
+
     try:
         # Get messages around the replied message
         start_id = max(1, message.id - search_range)
         end_id = message.id + search_range
-        
+
         for msg_id in range(start_id, end_id + 1):
             try:
                 msg = await app.get_messages(chat_id, msg_id)
@@ -164,7 +164,7 @@ async def _get_media_group(chat_id: int, message: types.Message) -> List[types.M
                     messages.append(msg)
             except:
                 continue
-                
+
         # Sort by message ID to maintain order
         messages.sort(key=lambda x: x.id)
         return messages if messages else None
@@ -370,7 +370,7 @@ async def _send_broadcast(
                     for idx, msg in enumerate(media_group):
                         # Use caption from first media or provided text
                         caption = text if (idx == 0 and text) else (msg.caption if idx == 0 else None)
-                        
+
                         if msg.photo:
                             file_id = msg.photo.file_id if hasattr(msg.photo, 'file_id') else msg.photo[-1].file_id
                             media_list.append(types.InputMediaPhoto(media=file_id, caption=caption))
@@ -380,11 +380,11 @@ async def _send_broadcast(
                             media_list.append(types.InputMediaAudio(media=msg.audio.file_id, caption=caption))
                         elif getattr(msg, 'document', None):
                             media_list.append(types.InputMediaDocument(media=msg.document.file_id, caption=caption))
-                    
+
                     if media_list:
                         sent_messages = await app.send_media_group(chat_id=chat_id, media=media_list)
                         sent_message = sent_messages[0] if sent_messages else None
-                        
+
                         # Handle pinning if requested (pin first message)
                         if sent_message and chat_id in groups:
                             if "-pin" in flags:
@@ -403,7 +403,7 @@ async def _send_broadcast(
                         failed_log += f"{chat_id} - No valid media in group\n"
                         await asyncio.sleep(0.3)
                         continue
-                            
+
                 except Exception as mg_ex:
                     failed_log += f"{chat_id} - Media group send failed: {type(mg_ex).__name__}: {str(mg_ex)}\n"
                     await asyncio.sleep(0.3)
@@ -417,7 +417,7 @@ async def _send_broadcast(
                 caption = text if text else (media_message.caption or "")
                 # Get caption entities to preserve formatting (blockquote, bold, italic, etc.)
                 caption_entities = None if text else (media_message.caption_entities or None)
-                
+
                 try:
                     if media_message.photo:
                         # Photo is a list of PhotoSize objects, get the largest
@@ -474,7 +474,7 @@ async def _send_broadcast(
                     failed_log += f"{chat_id} - Media send failed: {type(send_ex).__name__}: {str(send_ex)}\n"
                     await asyncio.sleep(0.3)
                     continue
-                    
+
             else:
                 # No media: send text message
                 sent_message = await app.send_message(chat_id, text)
@@ -519,7 +519,7 @@ async def _send_broadcast(
             # Retry sending after waiting
             try:
                 retry_sent = None
-                
+
                 # Retry media group if it was a media group
                 if media_group:
                     media_list = []
@@ -537,12 +537,12 @@ async def _send_broadcast(
                     if media_list:
                         retry_msgs = await app.send_media_group(chat_id=chat_id, media=media_list)
                         retry_sent = retry_msgs[0] if retry_msgs else None
-                
+
                 # Retry single media message
                 elif media_message:
                     caption = text if text else (media_message.caption or "")
                     caption_entities = None if text else (media_message.caption_entities or None)
-                    
+
                     if media_message.photo:
                         file_id = media_message.photo.file_id if hasattr(media_message.photo, 'file_id') else media_message.photo[-1].file_id
                         retry_sent = await app.send_photo(chat_id=chat_id, photo=file_id, caption=caption, caption_entities=caption_entities)
