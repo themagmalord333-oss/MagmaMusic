@@ -11,8 +11,8 @@ from PIL import (
     ImageFont
 )
 
-from Elevenyts import config
-from Elevenyts.helpers import Track
+from Anysnap import config
+from Anysnap.helpers import Track
 
 
 PANEL_W, PANEL_H = 1030, 610
@@ -63,17 +63,17 @@ class Thumbnail:
         try:
 
             self.title_font = ImageFont.truetype(
-                "Elevenyts/helpers/Raleway-Bold.ttf",
+                "Anysnap/helpers/Raleway-Bold.ttf",
                 42
             )
 
             self.regular_font = ImageFont.truetype(
-                "Elevenyts/helpers/Inter-Light.ttf",
+                "Anysnap/helpers/Inter-Light.ttf",
                 24
             )
 
             self.signature_font = ImageFont.truetype(
-                "Elevenyts/helpers/Raleway-Bold.ttf",
+                "Anysnap/helpers/Raleway-Bold.ttf",
                 28
             )
 
@@ -304,7 +304,7 @@ class Thumbnail:
                 font=self.regular_font
             )
 
-            icons_path = "Elevenyts/helpers/play_icons.png"
+            icons_path = "Anysnap/helpers/play_icons.png"
 
             if os.path.isfile(icons_path):
 
