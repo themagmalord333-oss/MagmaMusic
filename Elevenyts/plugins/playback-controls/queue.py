@@ -1,7 +1,7 @@
 from pyrogram import filters, types
 
-from Elevenyts import app, config, db, lang, queue
-from Elevenyts.helpers import Track, buttons, thumb
+from Anysnap import app, config, db, lang, queue
+from Anysnap.helpers import Track, buttons, thumb
 
 
 @app.on_message(filters.command(["queue", "playing", "cqueue", "cplaying"]) & filters.group & ~app.bl_users)
@@ -11,17 +11,17 @@ async def _queue_func(_, m: types.Message):
         await m.delete()
     except Exception:
         pass
-    
+
     # Check for channel play mode
     is_channel = m.command[0].lower() in ["cqueue", "cplaying"]
     chat_id = m.chat.id
-    
+
     if is_channel:
         channel_id = await db.get_cmode(m.chat.id)
         if channel_id is None:
             return await m.reply_text("Channel play is not enabled. Use /channelplay to enable.")
         chat_id = channel_id
-    
+
     if not await db.get_call(chat_id):
         return await m.reply_text("Nothing is playing.")
 
@@ -34,7 +34,7 @@ async def _queue_func(_, m: types.Message):
         else config.DEFAULT_THUMB
     )
     _text = f"Now Playing:\n{_media.title}\nDuration: {_media.duration}\nRequested by: {_media.user}"
-    
+
     _queue.pop(0)
 
     if _queue:
