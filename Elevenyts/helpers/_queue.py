@@ -59,7 +59,7 @@ class Queue:
     def get_queue(self, chat_id: int) -> list[MediaItem]:
         """Return the full queue including the currently playing item."""
         return list(self.queues[chat_id])
-    
+
     def get_all(self, chat_id: int) -> list[MediaItem]:
         """Alias for get_queue() - return the full queue including currently playing item."""
         return self.get_queue(chat_id)
@@ -86,11 +86,11 @@ class Queue:
         """
         if not self.queues[chat_id] or len(self.queues[chat_id]) <= 1:
             return []
-        
+
         # Convert deque to list and skip first item (currently playing)
         queue_list = list(self.queues[chat_id])
         return queue_list[1:min(len(queue_list), count + 1)]
-    
+
     @staticmethod
     def is_downloaded(item: MediaItem) -> bool:
         """
