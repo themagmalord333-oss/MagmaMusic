@@ -1,21 +1,20 @@
 # ==========================================================
-# Copyright (c) 2026 ArtistBots
+# Copyright (c) 2026 Anysnap
 # All Rights Reserved.
 #
-# Project      : ArtistBots API Telegram Music Bot
-# Powered By   : Artist
+# Project      : Anysnap API Telegram Music Bot
+# Powered By   : Anysnap
 # Type         : API Based Telegram Music Bot
 #
-# Bot          : @ArtistApibot
-# Channel      : https://t.me/artistbots
-# GitHub       : https://github.com/elevenyts
+# Channel      : @ANYSNAP
+# GitHub       : https://github.com/themagmalord333-oss
 #
 # Unauthorized copying, modification, or redistribution
 # of this source code without permission is prohibited.
 # ==========================================================
 import os
 from pyrogram import filters, types
-from Elevenyts import app, db, lang, queue
+from Anysnap import app, db, lang, queue
 
 
 @app.on_message(filters.command(["ac", "activevc"]) & app.sudo_filter)
@@ -26,7 +25,7 @@ async def _activevc(_, m: types.Message):
         await m.delete()
     except Exception:
         pass
-    
+
     if not db.active_calls:
         return await m.reply_text(m.lang["vc_empty"])
 
