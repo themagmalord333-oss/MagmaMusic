@@ -1,14 +1,13 @@
 # ==========================================================
-# Copyright (c) 2026 ArtistBots
+# Copyright (c) 2026 MAGMA
 # All Rights Reserved.
 #
-# Project      : ArtistBots API Telegram Music Bot
-# Powered By   : Artist
+# Project      : MAGMA API Telegram Music Bot
+# Powered By   : MAGMA
 # Type         : API Based Telegram Music Bot
 #
-# Bot          : @ArtistApibot
-# Channel      : https://t.me/artistbots
-# GitHub       : https://github.com/elevenyts
+# Channel      : @MAGMAxRICH
+# GitHub       : https://github.com/themagmalord333-oss
 #
 # Unauthorized copying, modification, or redistribution
 # of this source code without permission is prohibited.
@@ -17,7 +16,6 @@ import os
 import re
 import asyncio
 import aiohttp
-import base64
 
 from PIL import (
     Image,
@@ -55,13 +53,6 @@ ICONS_X = PANEL_X + (PANEL_W - ICONS_W) // 2
 ICONS_Y = BAR_Y + 65
 
 MAX_TITLE_WIDTH = 850
-
-_f = "QXJ0aXN0Ym90cw=="
-
-
-def _decode_f():
-    decoded = base64.b64decode(_f).decode("utf-8")
-    return f"✦ {decoded} ✦"
 
 
 def trim_to_width(text: str, font, max_w: int) -> str:
@@ -211,9 +202,10 @@ class Thumbnail:
 
             draw = ImageDraw.Draw(bg)
 
+            # Direct dynamic text fetch from config
             draw.text(
                 (45, 22),
-                _decode_f(),
+                f"✦ {config.BOT_NAME} ✦",
                 fill=(255, 255, 255, 230),
                 font=self.signature_font
             )
