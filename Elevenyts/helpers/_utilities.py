@@ -1,6 +1,6 @@
 import re
 from pyrogram import enums, errors, types
-from Elevenyts import app, config
+from Anysnap import app, config
 
 
 class Utilities:
