@@ -1,3 +1,18 @@
+# ==========================================================
+# Copyright (c) 2026 Anysnap
+# All Rights Reserved.
+#
+# Project      : Anysnap API Telegram Music Bot
+# Powered By   : Anysnap
+# Type         : API Based Telegram Music Bot
+#
+# Channel      : @ANYSNAP
+# GitHub       : https://github.com/themagmalord333-oss
+#
+# Unauthorized copying, modification, or redistribution
+# of this source code without permission is prohibited.
+# ==========================================================
+
 from pathlib import Path
 
 
