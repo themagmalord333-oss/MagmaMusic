@@ -2,8 +2,8 @@ import time
 
 from pyrogram import filters, types
 
-from Elevenyts import app, db, lang
-from Elevenyts.helpers import admin_check, is_admin, utils
+from Anysnap import app, db, lang
+from Anysnap.helpers import admin_check, is_admin, utils
 
 
 @app.on_message(filters.command(["auth", "unauth"]) & filters.group & ~app.bl_users)
@@ -15,7 +15,7 @@ async def _auth(_, m: types.Message):
         await m.delete()
     except Exception:
         pass
-    
+
     user = await utils.extract_user(m)
     if not user:
         return await utils.safe_text(m, m.lang["user_not_found"])
@@ -58,11 +58,11 @@ async def _admincache(_, m: types.Message):
         await m.delete()
     except Exception:
         pass
-    
+
     # Check if message is from anonymous admin
     if not m.from_user:
         return
-    
+
     if m.from_user.id in rel_hist:
         if time.time() < rel_hist[m.from_user.id]:
             return await utils.safe_text(m, m.lang["admin_cache_wait"])
