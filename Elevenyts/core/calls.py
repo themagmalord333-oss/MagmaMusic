@@ -1,5 +1,3 @@
-
-
 import asyncio
 import logging
 from ntgcalls import ConnectionNotFound, TelegramServerError
