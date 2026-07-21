@@ -2,9 +2,9 @@ from pyrogram import filters
 from pyrogram import types
 from pyrogram.errors import FloodWait, MessageIdInvalid, MessageDeleteForbidden, ChatSendPlainForbidden, ChatWriteForbidden
 
-from Elevenyts import tune, app, config, db, lang, queue, tg, yt
-from Elevenyts.helpers import buttons, utils
-from Elevenyts.helpers._play import checkUB
+from Anysnap import tune, app, config, db, lang, queue, tg, yt
+from Anysnap.helpers import buttons, utils
+from Anysnap.helpers._play import checkUB
 import asyncio
 import logging
 
@@ -112,7 +112,7 @@ async def play_hndlr(
         await m.delete()
     except Exception:
         pass
-    
+
     # Handle channel play mode
     chat_id = m.chat.id
     message_chat_id = m.chat.id  # Store original group chat ID for thumbnail
@@ -135,7 +135,7 @@ async def play_hndlr(
                 "<blockquote>❌ Cannot find channel!\n\n"
                 "Please make sure I'm admin in the channel and channel exists.</blockquote>"
             )
-        
+
         # Auto-join assistant to channel if not already a member
         client = await db.get_client(channel_id)
         try:
@@ -159,22 +159,22 @@ async def play_hndlr(
                             f"Please add @{client.username if client.username else client.mention} "
                             f"to the channel as an admin with permission to join.</blockquote>"
                         )
-                
+
                 # Show joining message
                 join_msg = await safe_reply(m,
                     f"<blockquote>🔌 Joining assistant to channel...</blockquote>"
                 )
-                
+
                 # Try to join the channel
                 await client.join_chat(invite_link)
                 await asyncio.sleep(1)  # Give it time to fully join
-                
+
                 # Delete joining message
                 try:
                     await join_msg.delete()
                 except:
                     pass
-                    
+
             except Exception as e:
                 error_str = str(e)
                 return await safe_reply(m,
@@ -186,7 +186,7 @@ async def play_hndlr(
 
     # Select emoji for this play session
     play_emoji = m.lang["play_emoji"]
-    
+
     try:
         sent = await safe_reply(m, m.lang["play_searching"].format(play_emoji))
     except FloodWait as e:
@@ -201,7 +201,7 @@ async def play_hndlr(
             return  # Abort silently
     except Exception:
         return  # If we can't even send initial message, abort
-    
+
     mention = m.from_user.mention
     media = tg.get_media(m.reply_to_message) if m.reply_to_message else None
     tracks = []
@@ -307,15 +307,15 @@ async def play_hndlr(
                 except Exception:
                     # Can't send message, continue anyway
                     pass
-            
+
             # ✨ NEW: Start preloading queued tracks in background
             try:
-                from Elevenyts import preload
+                from Anysnap import preload
                 asyncio.create_task(preload.start_preload(chat_id, count=2))
             except Exception:
                 # Non-critical, continue without preload
                 pass
-            
+
             return
 
     if not file.file_path:
@@ -356,7 +356,7 @@ async def play_hndlr(
                 sent,
                 "<blockquote>❌ YouTube bot detection triggered.\n\n"
                 "Solution:\n"
-                "• Update YouTube cookies in `Elevenyts/cookies/` folder\n"
+                "• Update YouTube cookies in `Anysnap/cookies/` folder\n"
                 "• Wait a few minutes before trying again\n"
                 "• Try /radio for uninterrupted music\n\n"
                 f"Support: {config.SUPPORT_CHAT}</blockquote>"
