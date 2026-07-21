@@ -1,8 +1,8 @@
 from py_yt import VideosSearch
 from pyrogram import types
 
-from Elevenyts import app
-from Elevenyts.helpers import buttons
+from Anysnap import app
+from Anysnap.helpers import buttons
 
 
 @app.on_inline_query(~app.bl_users)
