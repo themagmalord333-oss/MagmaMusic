@@ -2,7 +2,7 @@ import asyncio
 import logging
 from typing import Dict, Set
 
-logger = logging.getLogger("Elevenyts")
+logger = logging.getLogger("Anysnap")
 
 
 class PreloadManager:
@@ -64,10 +64,10 @@ class PreloadManager:
         """
         try:
             # Import here to avoid circular dependency
-            from Elevenyts import yt
+            from Anysnap import yt
 
             logger.debug(f"Starting preload for chat {chat_id}: {media.title}")
-            
+
             # Download the track
             if not media.file_path:
                 media.file_path = await yt.download(
@@ -80,7 +80,7 @@ class PreloadManager:
             else:
                 logger.debug(f"Track already has file_path for chat {chat_id}: {media.title}")
                 self._preloaded.setdefault(chat_id, set()).add(media.id)
-                
+
         except asyncio.CancelledError:
             logger.debug(f"Preload cancelled for chat {chat_id}")
             raise
@@ -109,7 +109,7 @@ class PreloadManager:
             if active:
                 await asyncio.gather(*active, return_exceptions=True)
             logger.debug(f"Cancelled preload for chat {chat_id}")
-        
+
         # Clear preloaded cache
         self._preloaded.pop(chat_id, None)
         self._tasks.pop(chat_id, None)
@@ -147,8 +147,8 @@ class PreloadManager:
         """
         try:
             # Import here to avoid circular dependency
-            from Elevenyts import queue
-            
+            from Anysnap import queue
+
             # Get full queue and preload upcoming tracks (skip first one - that's current)
             all_tracks = queue.get_queue(chat_id)
             if len(all_tracks) > 1:
@@ -157,6 +157,6 @@ class PreloadManager:
                 for media in upcoming:
                     if not media.file_path:
                         await self.preload_next(chat_id, media)
-                        
+
         except Exception as e:
             logger.debug(f"Error in start_preload for {chat_id}: {e}")
