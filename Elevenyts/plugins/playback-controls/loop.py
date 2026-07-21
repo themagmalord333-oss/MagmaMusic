@@ -1,7 +1,7 @@
 from pyrogram import filters, types
 
-from Elevenyts import app, db, lang
-from Elevenyts.helpers import can_manage_vc
+from Anysnap import app, db, lang
+from Anysnap.helpers import can_manage_vc
 
 
 @app.on_message(filters.command(["loop", "cloop"]) & filters.group & ~app.bl_users)
@@ -12,19 +12,19 @@ async def _loop(_, m: types.Message):
         await m.delete()
     except Exception:
         pass
-    
+
     # Check for channel play mode
     is_channel = m.command[0].lower() == "cloop"
     chat_id = m.chat.id
-    
+
     if is_channel:
         channel_id = await db.get_cmode(m.chat.id)
         if channel_id is None:
             return await m.reply_text("Channel play is not enabled. Use /channelplay to enable.")
         chat_id = channel_id
-    
+
     current_loop = await db.get_loop(chat_id)
-    
+
     if len(m.command) > 1:
         mode_arg = m.command[1].lower()
         if mode_arg in ["0", "disable"]:
@@ -56,6 +56,6 @@ async def _loop(_, m: types.Message):
         else:
             new_loop = 0
             text = "Loop mode disabled"
-    
+
     await db.set_loop(chat_id, new_loop)
     await m.reply_text(text)
