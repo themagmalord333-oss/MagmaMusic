@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from Elevenyts import logger
+from Anysnap import logger
 
 
 def ensure_dirs():
