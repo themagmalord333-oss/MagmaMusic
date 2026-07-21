@@ -4,7 +4,7 @@
   <h1>🎵 ˹ ᴍᴀɢᴍᴀ ᴍᴜꜱɪᴄ ˼ 🎵</h1>
 
   <a href="https://github.com/themagmalord333-oss/MagmaMusic">
-    <img src="https://readme-typing-svg.herokuapp.com/?lines=ㅤ+𝚆𝙴𝙻𝙲𝙾𝙼𝙴+𝚃𝙾+𝙼𝙰𝙶𝙼𝙰+𝙼𝚄𝚂𝙸𝙲+𝚁𝙴𝙿𝙾+;ㅤ+𝚃𝙷𝙸𝚂+𝙸𝚂+𝙰+𝙰𝙳𝚅𝙰𝙽𝙲𝙴+𝙼𝚄𝚂𝙸𝙲+𝙱𝙾𝚃;𝙿𝙾𝚆𝙴𝚁𝙴𝙳+𝙱𝚈+☞+𝙼𝙰𝙶𝙼𝙰𝚡𝚁𝙸𝙲𝙷&center=true&width=320&size=16">
+    <img src="https://readme-typing-svg.herokuapp.com/?lines=ㅤ+𝚆𝙴𝙻𝙲𝙾𝙼𝙴+𝚃𝙾+𝙼𝙰𝙶𝙼𝙰+𝙼𝚄𝚂𝙸𝙲+𝚁𝙴𝙿𝙾+;ㅤ+𝚃𝙷𝙸𝚂+𝙸𝚂+𝙰+𝙰𝙳𝚅𝙰𝙽𝙲𝙴+𝙼𝚄𝚂𝙸𝙲+𝙱𝙾𝚃;𝙿𝙾𝚆𝙴𝚁𝙴𝙳+𝙱𝚈+☞+𝙼𝙰𝙶𝙼𝙰𝚡𝚁𝙸𝙲𝙷&center=true&width=500&size=16" width="100%">
   </a>
   
   <br><br>
@@ -13,16 +13,16 @@
   
   <br><br>
   
-  <a href="https://t.me/MagmaProjects">
+  <a href="https://t.me/MAGMAxRICH">
     <img src="https://img.shields.io/badge/Telegram-Channel-blue?style=for-the-badge&logo=telegram">
   </a>
-  <a href="https://t.me/MAGMAxRICH">
+  <a href="https://t.me/MagmaProjects">
     <img src="https://img.shields.io/badge/Telegram-Support-blue?style=for-the-badge&logo=telegram">
   </a>
   
   <br><br>
   
-  <img src="https://readme-typing-svg.herokuapp.com?color=FF0000&size=15&width=320&lines=𝗙𝗢𝗥𝗞+𝗠𝗔𝗚𝗠𝗔+𝗠𝗨𝗦𝗜𝗖+𝗥𝗘𝗣𝗢+𝗕𝗘𝗙𝗢𝗥𝗘+𝗗𝗘𝗣𝗟𝗢𝗬&center=true">
+  <img src="https://readme-typing-svg.herokuapp.com?color=FF0000&size=16&width=500&lines=𝗙𝗢𝗥𝗞+𝗠𝗔𝗚𝗠𝗔+𝗠𝗨𝗦𝗜𝗖+𝗥𝗘𝗣𝗢+𝗕𝗘𝗙𝗢𝗥𝗘+𝗗𝗘𝗣𝗟𝗢𝗬&center=true" width="100%">
 </div>
 
 ---
@@ -53,8 +53,8 @@ python3 -m Anysnap
 <img src="https://i.ibb.co/vCcXTPwY/x.jpg" alt="MAGMAxRICH Support" width="300">
 </a>
 </div>
- * **Telegram Channel**: Magma Projects
- * **Support Group**: MAGMAxRICH
+ * **Telegram Channel**: MAGMAxRICH
+ * **Support Group**: Magma Projects
 ## 📝 Notes
  * Make sure your bot is admin in both the group and logger group
  * The assistant account will auto-join groups when needed for playback
