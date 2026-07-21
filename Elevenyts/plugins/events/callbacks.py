@@ -5,8 +5,8 @@ from functools import wraps
 from pyrogram import filters, types
 from pyrogram.errors import FloodWait, QueryIdInvalid
 
-from Elevenyts import tune, app, config, db, lang, logger, queue, tg, yt
-from Elevenyts.helpers import admin_check, buttons, can_manage_vc
+from Anysnap import tune, app, config, db, lang, logger, queue, tg, yt
+from Anysnap.helpers import admin_check, buttons, can_manage_vc
 
 
 def safe_callback(func):
@@ -32,10 +32,10 @@ def safe_callback(func):
 async def _start_callback(_, query: types.CallbackQuery):
     """Handle start button callback - return to start message."""
     await query.answer()
-    
+
     _text = query.lang["start_pm"].format(query.from_user.first_name, app.name)
     key = buttons.start_key(query.lang, True)
-    
+
     try:
         await query.edit_message_caption(
             caption=_text,
@@ -81,7 +81,7 @@ async def _controls(_, query: types.CallbackQuery):
     # Inline permission check: sudo users, authorized users, or group admins
     user_id = query.from_user.id
     has_permission = False
-    
+
     if user_id in app.sudoers:
         has_permission = True
     elif await db.is_auth(chat_id, user_id):
@@ -90,7 +90,7 @@ async def _controls(_, query: types.CallbackQuery):
         admins = await db.get_admins(chat_id)
         if user_id in admins:
             has_permission = True
-    
+
     if not has_permission:
         return await query.answer("⚠️ You don't have permission to use this.", show_alert=True)
 
@@ -99,19 +99,19 @@ async def _controls(_, query: types.CallbackQuery):
 
     if action == "status":
         return await query.answer()
-    
+
     # Handle seek actions
     if action.startswith("seek_"):
         return await handle_seek(query, chat_id, action, user)
-    
+
     # Handle loop action
     if action == "loop":
         return await handle_loop(query, chat_id, user)
-    
+
     # Handle shuffle action
     if action == "shuffle":
         return await handle_shuffle(query, chat_id, user)
-    
+
     await query.answer(query.lang["processing"], show_alert=True)
 
     if action == "pause":
@@ -200,7 +200,7 @@ async def _controls(_, query: types.CallbackQuery):
             except Exception:
                 pass
             await query.message.delete()
-            
+
             # Auto-delete the reply message after 5 seconds
             if sent_msg:
                 await asyncio.sleep(5)
@@ -239,10 +239,10 @@ async def handle_seek(query: types.CallbackQuery, chat_id: int, action: str, use
     media = queue.get_current(chat_id)
     if not media or media.is_live:
         return await query.answer("⚠️ Cannot seek in live streams!", show_alert=True)
-    
+
     if not media.duration_sec or media.duration_sec == 0:
         return await query.answer("⚠️ Cannot seek in this track!", show_alert=True)
-    
+
     # Determine seek amount and direction
     if action == "seek_back_10":
         seconds = -10
@@ -258,17 +258,17 @@ async def handle_seek(query: types.CallbackQuery, chat_id: int, action: str, use
         label = "30s »"
     else:
         return await query.answer("⚠️ Invalid seek action!", show_alert=True)
-    
+
     # Calculate new position
     current_time = getattr(media, 'time', 0)
     new_time = max(0, min(current_time + seconds, media.duration_sec - 5))
-    
+
     # Check if we're at the boundaries
     if new_time == 0 and seconds < 0:
         return await query.answer(f"⏮️ Already at the beginning!", show_alert=True)
     if new_time >= media.duration_sec - 5 and seconds > 0:
         return await query.answer(f"⏭️ Too close to the end!", show_alert=True)
-    
+
     # Perform seek
     success = await tune.seek_stream(chat_id, int(new_time))
     if success:
@@ -278,10 +278,10 @@ async def handle_seek(query: types.CallbackQuery, chat_id: int, action: str, use
             time_str = time_module.strftime('%H:%M:%S', time_module.gmtime(new_time))
         else:
             time_str = time_module.strftime('%M:%S', time_module.gmtime(new_time))
-        
+
         # Use callback answer to avoid FloodWait
         await query.answer(f"✅ Seeked to {time_str}", show_alert=True)
-        
+
         # Try to send reply message with FloodWait handling and auto-delete after 5 seconds
         try:
             sent_msg = await query.message.reply_text(
@@ -304,7 +304,7 @@ async def handle_seek(query: types.CallbackQuery, chat_id: int, action: str, use
 async def handle_loop(query: types.CallbackQuery, chat_id: int, user: str):
     """Handle loop mode toggling."""
     current_loop = await db.get_loop(chat_id)
-    
+
     # Cycle through loop modes: 0 (off) -> 1 (single) -> 10 (queue) -> 0
     if current_loop == 0:
         new_loop = 1
@@ -318,7 +318,7 @@ async def handle_loop(query: types.CallbackQuery, chat_id: int, user: str):
         new_loop = 0
         text = "➡️ Loop: Off"
         message = f"➡️ Loop mode <b>Disabled</b>"
-    
+
     await db.set_loop(chat_id, new_loop)
     await query.answer(text, show_alert=False)
     await query.message.reply_text(message, quote=False)
@@ -327,28 +327,28 @@ async def handle_loop(query: types.CallbackQuery, chat_id: int, user: str):
 async def handle_shuffle(query: types.CallbackQuery, chat_id: int, user: str):
     """Handle queue shuffling."""
     import random
-    
+
     items = queue.get_queue(chat_id)
     if not items or len(items) <= 1:
         return await query.answer("⚠️ Queue is empty or has only one track!", show_alert=True)
-    
+
     # Get current track and remove from list
     current = items[0] if items else None
     remaining = items[1:] if len(items) > 1 else []
-    
+
     if not remaining:
         return await query.answer("⚠️ No tracks to shuffle!", show_alert=True)
-    
+
     # Shuffle remaining tracks
     random.shuffle(remaining)
-    
+
     # Rebuild queue with current track first
     queue.clear(chat_id)
     if current:
         queue.add(chat_id, current)
     for item in remaining:
         queue.add(chat_id, item)
-    
+
     await query.answer("🔀 Queue shuffled!", show_alert=False)
     await query.message.reply_text(
         f"🔀 Queue <b>shuffled</b> ({len(remaining)} tracks)",
@@ -360,7 +360,7 @@ async def handle_shuffle(query: types.CallbackQuery, chat_id: int, user: str):
 @lang.language()
 async def _help(_, query: types.CallbackQuery):
     await query.answer()
-    
+
     # Handle plain "help" callback - show main menu
     if query.data == "help":
         try:
@@ -379,9 +379,9 @@ async def _help(_, query: types.CallbackQuery):
             except Exception:
                 pass
         return
-    
+
     category = query.data.replace("help_", "")
-    
+
     if category == "main":
         # Return to main help menu from category
         try:
@@ -417,9 +417,9 @@ async def _help(_, query: types.CallbackQuery):
         "sudo": query.lang["help_sudo"],
         "maintenance": query.lang["help_maintenance"],
     }
-    
+
     help_text = help_texts.get(category, query.lang["help_admins"])
-    
+
     try:
         await query.edit_message_caption(
             caption=help_text,
