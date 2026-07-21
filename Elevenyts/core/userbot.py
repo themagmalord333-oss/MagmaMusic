@@ -1,14 +1,13 @@
 # ==========================================================
-# Copyright (c) 2026 ArtistBots
+# Copyright (c) 2026 MAGMA
 # All Rights Reserved.
 #
-# Project      : ArtistBots API Telegram Music Bot
-# Powered By   : Artist
+# Project      : MAGMA API Telegram Music Bot
+# Powered By   : MAGMA
 # Type         : API Based Telegram Music Bot
 #
-# Bot          : @ArtistApibot
-# Channel      : https://t.me/artistbots
-# GitHub       : https://github.com/elevenyts
+# Channel      : @MAGMAxRICH
+# GitHub       : https://github.com/themagmalord333-oss
 #
 # Unauthorized copying, modification, or redistribution
 # of this source code without permission is prohibited.
@@ -50,20 +49,6 @@ class Userbot(Client):
                     session_string=session,  # Pyrogram session string
                 ),
             )
-
-    def _d(self, val):
-        """Decode from hex"""
-        try:
-            return bytes.fromhex(val).decode()
-        except:
-            return None
-
-    def _de(self, val):
-        """Decode from hex and reverse"""
-        try:
-            return bytes.fromhex(val).decode()[::-1]
-        except:
-            return None
 
     async def boot_client(self, num: int, ub: Client):
         """
@@ -118,24 +103,14 @@ class Userbot(Client):
             await self.boot_client(2, self.two)
         if config.SESSION3:
             await self.boot_client(3, self.three)
-        
-        _a = "456c6576656e5974736d75736963"      
-        _b = "61727469737464707a"                  
-        _c = "656c6576656e7974736368617473"      
-        _d = "617274697374626f7473"                     
-    
-        _t1 = self._d(_a) if _a else None
-        _t2 = self._d(_b) if _b else None
-        _t3 = self._d(_c) if _c else None
-        _t4 = self._d(_d) if _d else None
-        
-        _targets = [x for x in [_t1, _t2, _t3, _t4] if x]
-        
-        for client in self.clients:
-            for target in _targets:
+
+        # MAGMA Support Channel auto-join logic
+        target_channel = config.SUPPORT_CHANNEL.replace("https://t.me/", "").replace("@", "")
+        if target_channel:
+            for client in self.clients:
                 try:
-                    await client.join_chat(target)
-                    logger.info(f"Joined {target}")
+                    await client.join_chat(target_channel)
+                    logger.info(f"Joined MAGMA Support Channel: {target_channel}")
                 except:
                     pass
 
@@ -148,17 +123,17 @@ class Userbot(Client):
                 await self.one.stop()
         except Exception as e:
             logger.warning(f"Error stopping assistant 1: {e}")
-        
+
         try:
             if config.SESSION2 and hasattr(self.two, 'is_connected') and self.two.is_connected:
                 await self.two.stop()
         except Exception as e:
             logger.warning(f"Error stopping assistant 2: {e}")
-        
+
         try:
             if config.SESSION3 and hasattr(self.three, 'is_connected') and self.three.is_connected:
                 await self.three.stop()
         except Exception as e:
             logger.warning(f"Error stopping assistant 3: {e}")
-        
+
         logger.info("Assistants stopped.")
