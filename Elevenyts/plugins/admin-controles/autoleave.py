@@ -1,7 +1,7 @@
 from pyrogram import filters
 from pyrogram.types import Message
 
-from Elevenyts import app, db
+from Anysnap import app, db
 
 
 @app.on_message(
@@ -11,13 +11,13 @@ from Elevenyts import app, db
 )
 async def autoleave_command(_, m: Message) -> None:
     """Handle /autoleave enable or /autoleave disable command."""
-    
+
     # Check if user is sudo user
     if m.from_user.id not in app.sudoers:
         return await m.reply_text(
             "❌ ᴏɴʟʏ ꜱᴜᴅᴏ ᴜꜱᴇʀꜱ ᴄᴀɴ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ."
         )
-    
+
     # Check if subcommand is provided
     if len(m.command) < 2:
         current_status = await db.get_autoleave(m.chat.id)
@@ -30,9 +30,9 @@ async def autoleave_command(_, m: Message) -> None:
             "<blockquote><i>ᴡʜᴇɴ ᴇɴᴀʙʟᴇᴅ, ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴡɪʟʟ ʟᴇᴀᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴀꜰᴛᴇʀ 5 ᴍɪɴᴜᴛᴇꜱ "
             "ɪꜰ ɴᴏ ᴜꜱᴇʀꜱ ᴀʀᴇ ʟɪꜱᴛᴇɴɪɴɢ.</i></blockquote>"
         )
-    
+
     subcommand = m.command[1].lower()
-    
+
     if subcommand == "enable":
         await db.set_autoleave(m.chat.id, True)
         await m.reply_text(
