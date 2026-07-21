@@ -1,7 +1,7 @@
 import asyncio
 from pyrogram import filters, types, errors, enums
 
-from Elevenyts import app, db, lang, logger, userbot, config
+from Anysnap import app, db, lang, logger, userbot, config
 
 
 @app.on_message(filters.command(["leave"]) & app.sudo_filter)
@@ -16,7 +16,7 @@ async def _leave(_, m: types.Message):
         await m.delete()
     except Exception:
         pass
-    
+
     chat_id = m.chat.id
     chat_name = m.chat.title or "this chat"
 
@@ -64,31 +64,31 @@ async def _leaveall(_, m: types.Message):
         await m.delete()
     except Exception:
         pass
-    
+
     sent = await m.reply_text(
         f"<blockquote><b>🔄 Processing...</b></blockquote>\n\n"
         f"<blockquote>Making assistants leave all inactive groups...</blockquote>"
     )
-    
+
     total_left = 0
-    
+
     for ub in userbot.clients:
         left = 0
         try:
             async for dialog in ub.get_dialogs():
                 chat_id = dialog.chat.id
-                
+
                 # Skip logger and excluded chats
                 excluded = [app.logger] + config.EXCLUDED_CHATS
                 if chat_id in excluded:
                     continue
-                
+
                 # Only leave groups and supergroups
                 if dialog.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
                     # Skip if currently in an active call
                     if chat_id in db.active_calls:
                         continue
-                    
+
                     try:
                         await ub.leave_chat(chat_id)
                         left += 1
@@ -97,11 +97,11 @@ async def _leaveall(_, m: types.Message):
                     except Exception as e:
                         logger.debug(f"Failed to leave {chat_id}: {e}")
                         continue
-                        
+
         except Exception as e:
             logger.error(f"Error in leaveall for assistant {ub.me.username if hasattr(ub, 'me') and ub.me else 'Unknown'}: {e}")
             continue
-    
+
     await sent.edit_text(
         f"<blockquote><b>✅ Cleanup Complete</b></blockquote>\n\n"
         f"<blockquote>Assistants left <b>{total_left}</b> inactive groups.</blockquote>"
