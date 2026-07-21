@@ -4,8 +4,8 @@ import time
 import pyrogram
 from pyrogram import enums, filters, types
 
-from Elevenyts import tune, app, config, db, lang, logger, queue, tasks, userbot, yt
-from Elevenyts.helpers import buttons
+from Anysnap import tune, app, config, db, lang, logger, queue, tasks, userbot, yt
+from Anysnap.helpers import buttons
 
 
 @app.on_message(filters.regex(r"^/") & ~filters.service, group=-1)
@@ -18,7 +18,7 @@ async def _maintenance_mode_check(_, m: types.Message):
     # Skip check for sudo users
     if not m.from_user or m.from_user.id in app.sudoers:
         return
-    
+
     # Check if maintenance mode is enabled
     maintenance = await db.get_maintenance()
     if maintenance:
@@ -212,20 +212,20 @@ async def vc_watcher(sleep=15):
     """Leave voice chat after 5 minutes if no users are listening."""
     alone_times = {}  # Track when assistant started being alone in VC
     LEAVE_TIMEOUT = 300  # 5 minutes in seconds (hardcoded)
-    
+
     while True:
         await asyncio.sleep(sleep)
         current_time = time.time()
-        
+
         for chat_id in list(db.active_calls):
             try:
                 # Check if auto-leave is enabled for this chat
                 if not await db.get_autoleave(chat_id):
                     alone_times.pop(chat_id, None)
                     continue
-                
+
                 client = await db.get_assistant(chat_id)
-                
+
                 # Check if userbot is actually in the call
                 try:
                     participants = await client.get_participants(chat_id)
@@ -234,7 +234,7 @@ async def vc_watcher(sleep=15):
                     # Remove from tracking and continue
                     alone_times.pop(chat_id, None)
                     continue
-                
+
                 # Check if only assistant is in VC (participants < 2 means only assistant)
                 if len(participants) < 2:
                     # Start tracking alone time
@@ -258,7 +258,7 @@ async def vc_watcher(sleep=15):
                                     await sent.reply_text(_lang["auto_left"])
                             except:
                                 pass
-                            
+
                             # Stop playback and leave
                             await tune.stop(chat_id)
                             try:
@@ -278,7 +278,7 @@ async def vc_watcher(sleep=15):
                 else:
                     # Reset timer if users join
                     alone_times.pop(chat_id, None)
-                    
+
             except Exception as e:
                 print(f"vc_watcher error for chat {chat_id}: {e}")
                 alone_times.pop(chat_id, None)
