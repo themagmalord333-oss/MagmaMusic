@@ -9,8 +9,8 @@ from typing import Any, Optional, Tuple
 
 from pyrogram import filters, types
 
-from Elevenyts import tune, app, config, db, lang, userbot
-from Elevenyts.helpers import format_exception, meval
+from Anysnap import tune, app, config, db, lang, userbot
+from Anysnap.helpers import format_exception, meval
 
 
 @app.on_message(filters.command(["eval", "exec"]) & filters.user(app.owner))
@@ -22,7 +22,7 @@ async def eval_handler(_, message: types.Message):
         await message.delete()
     except Exception:
         pass
-    
+
     if len(message.command) < 2:
         return await message.reply_text(message.lang["eval_inp"])
 
