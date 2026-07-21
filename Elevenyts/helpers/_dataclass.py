@@ -31,4 +31,4 @@ class Track:
     user: str = None
     view_count: str = None
     is_live: bool = False
-    video: bool = False  # ← ADDED
+    video: bool = False  # ← ADADDED
