@@ -1,12 +1,12 @@
 # ==========================================================
-# Copyright (c) 2026 MAGMA
+# Copyright (c) 2026 Anysnap
 # All Rights Reserved.
 #
-# Project      : MAGMA API Telegram Music Bot
-# Powered By   : MAGMA
+# Project      : Anysnap API Telegram Music Bot
+# Powered By   : Anysnap
 # Type         : API Based Telegram Music Bot
 #
-# Channel      : @MAGMAxRICH
+# Channel      : @ANYSNAP
 # GitHub       : https://github.com/themagmalord333-oss
 #
 # Unauthorized copying, modification, or redistribution
@@ -16,7 +16,7 @@
 from pyrogram import filters, types
 from pyrogram.errors import ChatAdminRequired, ChannelPrivate
 
-from Elevenyts import app, config
+from Anysnap import app, config
 
 
 # ==========================================
@@ -56,7 +56,7 @@ async def new_chat_member(_, message: types.Message):
             except Exception:
                 chat_link = "❌ ᴜɴᴀʙʟᴇ ᴛᴏ ɢᴇᴛ ʟɪɴᴋ"
 
-            text = f"""<blockquote>🟢 <b>˹𝐒ɴᴀᴘ ✘ 𝐌ᴜsɪᴄ˼! ᴀᴅᴅᴇᴅ ɪɴ ᴀ ɴᴇᴡ ɢʀᴏᴜᴘ</b></blockquote>
+            text = f"""<blockquote>🟢 <b>ANYSNAP ᴀᴅᴅᴇᴅ ɪɴ ᴀ ɴᴇᴡ ɢʀᴏᴜᴘ</b></blockquote>
 
 <blockquote>
 🔖 <b>ᴄʜᴀᴛ ɴᴀᴍᴇ:</b> {chat_name}
@@ -109,7 +109,7 @@ async def left_chat_member(_, message: types.Message):
         except:
             chat_link = "❌ ᴜɴᴀʙʟᴇ ᴛᴏ ɢᴇᴛ ʟɪɴᴋ"
 
-        text = f"""<blockquote>🔴 <b>˹𝐒ɴᴀᴘ ✘ 𝐌ᴜsɪᴄ˼! ʀᴇᴍᴏᴠᴇᴅ ꜰʀᴏᴍ ᴀ ɢʀᴏᴜᴘ</b></blockquote>
+        text = f"""<blockquote>🔴 <b>ANYSNAP ʀᴇᴍᴏᴠᴇᴅ ꜰʀᴏᴍ ᴀ ɢʀᴏᴜᴘ</b></blockquote>
 
 <blockquote>
 🔖 <b>ᴄʜᴀᴛ ɴᴀᴍᴇ:</b> {chat_name}
