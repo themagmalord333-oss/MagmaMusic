@@ -1,9 +1,9 @@
 # ==========================================================
-# Copyright (c) 2026 MAGMA
+# Copyright (c) 2026 Anysnap
 # All Rights Reserved.
 #
-# Project      : MAGMA API Telegram Music Bot
-# Powered By   : MAGMA
+# Project      : Anysnap API Telegram Music Bot
+# Powered By   : Anysnap
 # Type         : API Based Telegram Music Bot
 #
 # Channel      : @MAGMAxRICH
@@ -34,9 +34,9 @@ if sys.platform != "win32":
     except Exception:
         pass
 
-from Elevenyts import (tune, app, config, db,
+from Anysnap import (tune, app, config, db,
                    logger, stop, userbot, yt)
-from Elevenyts.plugins import all_modules
+from Anysnap.plugins import all_modules
 
 
 # HTTP Server for Render health checks
@@ -92,7 +92,7 @@ async def main():
         # Step 7: Load all plugin modules (commands like /play, /pause, etc.)
         for module in all_modules:
             try:
-                importlib.import_module(f"Elevenyts.plugins.{module}")
+                importlib.import_module(f"Anysnap.plugins.{module}")
             except Exception as e:
                 logger.error(f"Failed to load plugin {module}: {e}", exc_info=True)
         logger.info(f"🔌 Loaded {len(all_modules)} plugin modules.")
