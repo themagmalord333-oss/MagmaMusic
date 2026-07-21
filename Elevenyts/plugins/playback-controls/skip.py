@@ -3,8 +3,8 @@ import logging
 from pyrogram import filters, types
 from pyrogram.errors import ChatSendPlainForbidden, ChatWriteForbidden
 
-from Elevenyts import tune, app, db, lang
-from Elevenyts.helpers import can_manage_vc
+from Anysnap import tune, app, db, lang
+from Anysnap.helpers import can_manage_vc
 
 logger = logging.getLogger(__name__)
 
@@ -17,17 +17,17 @@ async def _skip(_, m: types.Message):
         await m.delete()
     except Exception:
         pass
-    
+
     # Check for channel play mode
     is_channel = m.command[0].lower() in ["cskip", "cnext"]
     chat_id = m.chat.id
-    
+
     if is_channel:
         channel_id = await db.get_cmode(m.chat.id)
         if channel_id is None:
             return await m.reply_text("Channel play is not enabled. Use /channelplay to enable.")
         chat_id = channel_id
-    
+
     if not await db.get_call(chat_id):
         try:
             return await m.reply_text("Nothing is playing.")
@@ -40,7 +40,7 @@ async def _skip(_, m: types.Message):
     except (ChatSendPlainForbidden, ChatWriteForbidden):
         logger.warning("Cannot send plain text in media-only chat")
         return
-    
+
     await asyncio.sleep(5)
     try:
         await sent_msg.delete()
