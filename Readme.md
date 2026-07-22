@@ -32,12 +32,12 @@
 ### 💻 Local / VPS Deployment
 
 ```bash
-git clone [https://github.com/themagmalord333-oss/MagmaMusic](https://github.com/themagmalord333-oss/MagmaMusic)
-cd MagmaMusic
-python3 -m venv venv
+•git clone [https://github.com/themagmalord333-oss/MagmaMusic](https://github.com/themagmalord333-oss/MagmaMusic)
+•cd MagmaMusic
+•python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
-python3 -m Anysnap
+•pip install -r requirements.txt
+•python3 -m Anysnap
 
 ```
 ## ✨ Features
